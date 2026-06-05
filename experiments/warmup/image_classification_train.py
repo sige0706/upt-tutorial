@@ -25,7 +25,7 @@ from upt.models.upt_image_classifier import UPTImageClassifier
 
 
 # Gerät festlegen
-device = torch.device("cpu")
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"device: {device}")
 
 
