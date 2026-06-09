@@ -39,9 +39,9 @@ train_dataset = CIFAR10(root="./data", train=True, download=True, transform=tran
 test_dataset = CIFAR10(root="./data", train=False, download=True, transform=transform)
 
 # hyperparameters
-dim = 192  # ~6M parameter model
-num_heads = 3
-epochs = 10
+dim = 384  # ~6M parameter model
+num_heads = 6
+epochs = 50
 batch_size = 256
 
 # initialize model
@@ -164,6 +164,26 @@ for _ in range(epochs):
         f"test_accuracy: {test_accuracy * 100:4.1f}%"
     )
 pbar.close()
+
+
+checkpoint_name = (
+    f"upt_cifar10_dim{dim}_heads{num_heads}_ep{epochs}.pth"
+)
+
+torch.save(
+    {
+        "epoch": epochs,
+        "model_state_dict": model.state_dict(),
+        "optimizer_state_dict": optim.state_dict(),
+        "test_accuracy": test_accuracy,
+        "dim": dim,
+        "num_heads": num_heads,
+    },
+    checkpoint_name,
+)
+
+print(f"Checkpoint gespeichert: {checkpoint_name}")
+
 
 
 
